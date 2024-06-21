@@ -2,22 +2,19 @@ import { Box, Title, Grid, Flex, Avatar, Button, Table } from '@mantine/core'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 
-const elements = [
-  { name: 'John Doe', title: 'Software Engineer', status: 'Active', role: 'Carbon' },
-  { name: 'John Doe1', title: 'Software Engineer', status: 'Active', role: 'Nitrogen' },
-  { name: 'John Doe2', title: 'Software Engineer', status: 'Active', role: 'Yttrium' },
-  { name: 'John Doe3', title: 'Software Engineer', status: 'Active', role: 'Barium' },
-  { name: 'John Doe4', title: 'Software Engineer', status: 'Active', role: 'Cerium' },
-];
-
 const UserList = () => {
-  // const [users, setUsers] = useState([])
-  // function getUsers() {
-  //   fetch("http://localhost:3000/users").then(res => {
-  //     setUsers(res)
-  //   })
-  // }
-  // useEffect(getUsers(), [])
+  const [users, setUsers] = useState([])
+
+  function getUsers() {
+    fetch("http://localhost:3000/users")
+  .then(res => res.json())
+  .then(data => setUsers(data))
+  .catch(error => console.error("Failed to fetch users:", error))
+  }
+
+  useEffect(() => {
+    getUsers()
+  }, [])
 
   return (
     <Box px="20" pt="20" className='userlist'>
@@ -81,7 +78,7 @@ const UserList = () => {
           </Table.Thead>
           <Table.Tbody>
             {
-              elements.map((element) => (
+              users.map((element) => (
                 <Table.Tr key={element.name} bg="#ffffff">
                   <Table.Td>{element.name}</Table.Td>
                   <Table.Td>{element.title}</Table.Td>
