@@ -28,3 +28,9 @@ html, body, #root{
   overflow: hidden;
   z-index: 0;
 }
+.user-form-wrapper {
+  border-radius: 8px;
+}
+.userform {
+  height: 100%;
+}
