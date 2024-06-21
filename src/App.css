@@ -1,0 +1,29 @@
+html, body, #root{
+  height: 100%;
+  width: 100%;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.header-wrapper {
+  border-bottom: 4px solid #4e4dd9;
+}
+.userlist{
+  background-color: #e4e7ec;
+  flex-grow: 1;
+}
+.card {
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+.list-table{
+  border-radius: 8px;
+  overflow: hidden;
+}
