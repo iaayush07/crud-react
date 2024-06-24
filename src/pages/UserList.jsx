@@ -1,8 +1,9 @@
 import { Box, Title, Grid, Flex, Avatar, Button, Table } from '@mantine/core'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 
 const UserList = () => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([])
 
   function getUsers() {
@@ -102,7 +103,9 @@ const UserList = () => {
                   <Table.Td>{user.status}</Table.Td>
                   <Table.Td>{user.role}</Table.Td>
                   <Table.Td>
-                    <Button variant="transparent" c="#7368c9">Edit</Button>
+                  <Link to={`/edit-user/${user.id}`} state={{ userData: user }}>
+                  <Button variant="transparent" c="#7368c9">Edit</Button>
+                </Link>
                     <Button variant="transparent" c="red" ms="10" onClick={() => handleDelete(user.id)}>Delete</Button>
                   </Table.Td>
                 </Table.Tr>

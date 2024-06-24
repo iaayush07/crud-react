@@ -1,38 +1,12 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useForm, isNotEmpty, hasLength } from '@mantine/form';
 import { Button, Group, TextInput, Grid, Box } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const UserForm = () => {
   const navigate = useNavigate();
-
-  const handleSubmit = async (values) => {
-    try {
-      const response = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
-  
-      // Log the raw response
-      console.log('Raw response:', response);
-  
-      // Attempt to parse the response as JSON
-      const responseData = await response.json();
-      console.log('Parsed response:', responseData);
-  
-      if (response.ok) {
-        console.log('User added successfully:', responseData);
-        navigate('/');
-      } else {
-        console.error('Failed to add user:', responseData);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+  const location = useLocation();
+  const userData = location.state?.userData;
 
   const form = useForm({
     initialValues: {
@@ -41,14 +15,48 @@ const UserForm = () => {
       status: '',
       role: '',
     },
-
     validate: {
-      name: hasLength({ min: 2, max: 20 }, 'Name must be 2-10 characters long'),
+      name: hasLength({ min: 2, max: 20 }, 'Name must be 2-20 characters long'),
       title: isNotEmpty('Enter title'),
       status: isNotEmpty('Enter status'),
       role: isNotEmpty('Enter role'),
     },
   });
+
+  useEffect(() => {
+    if (userData) {
+      form.setValues(userData);
+    }
+  }, [userData]);
+
+  const handleSubmit = async (values) => {
+    const url = userData ? `http://localhost:3000/users/${userData.id}` : "http://localhost:3000/users";
+    const method = userData ? 'PATCH' : 'POST';
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('User saved successfully:', responseData);
+        navigate('/');
+      } else {
+        console.error('Failed to save user:', await response.json());
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log('formData:', form.values);
+  }, [form.values]);
 
   return (
     <Box px="20" pt="20" className='userlist'>
@@ -83,13 +91,13 @@ const UserForm = () => {
               {...form.getInputProps('role')}
             />
             <Group position="right" mt="md">
-              <Button type="submit">Submit</Button>
+              <Button type="submit">{userData ? 'Update' : 'Add'} User</Button>
             </Group>
           </form>
         </Grid.Col>
       </Grid>
     </Box>
   );
-}
+};
 
 export default UserForm;
