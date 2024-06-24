@@ -12,6 +12,23 @@ const UserList = () => {
   .catch(error => console.error("Failed to fetch users:", error))
   }
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3000/users/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        // Remove the user from the state after successful deletion
+        setUsers(users.filter(user => user.id !== id));
+      } else {
+        console.error('Failed to delete user');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   useEffect(() => {
     getUsers()
   }, [])
@@ -78,14 +95,15 @@ const UserList = () => {
           </Table.Thead>
           <Table.Tbody>
             {
-              users.map((element) => (
-                <Table.Tr key={element.name} bg="#ffffff">
-                  <Table.Td>{element.name}</Table.Td>
-                  <Table.Td>{element.title}</Table.Td>
-                  <Table.Td>{element.status}</Table.Td>
-                  <Table.Td>{element.role}</Table.Td>
+              users.map((user) => (
+                <Table.Tr key={user.name} bg="#ffffff">
+                  <Table.Td>{user.name}</Table.Td>
+                  <Table.Td>{user.title}</Table.Td>
+                  <Table.Td>{user.status}</Table.Td>
+                  <Table.Td>{user.role}</Table.Td>
                   <Table.Td>
                     <Button variant="transparent" c="#7368c9">Edit</Button>
+                    <Button variant="transparent" c="red" ms="10" onClick={() => handleDelete(user.id)}>Delete</Button>
                   </Table.Td>
                 </Table.Tr>
               ))
