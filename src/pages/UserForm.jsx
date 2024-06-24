@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useForm, isNotEmpty, hasLength } from '@mantine/form';
 import { Button, Group, TextInput, Grid, Box } from '@mantine/core';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 const UserForm = () => {
   const navigate = useNavigate();
+  const { userId } = useParams();
   const location = useLocation();
   const userData = location.state?.userData;
 
@@ -30,7 +31,7 @@ const UserForm = () => {
   }, [userData]);
 
   const handleSubmit = async (values) => {
-    const url = userData ? `http://localhost:3000/users/${userData.id}` : "http://localhost:3000/users";
+    const url = userData ? `http://localhost:3000/users/${userId}` : "http://localhost:3000/users";
     const method = userData ? 'PATCH' : 'POST';
 
     try {
