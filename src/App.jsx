@@ -5,6 +5,8 @@ import UserList from './pages/UserList'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import UserForm from './pages/UserForm'
+import FormikList from './pages/FormikList'
+import FormikForm from './pages/FormikForm'
 
 function App() {
 
@@ -17,6 +19,8 @@ function App() {
           <Routes>
             <Route path="/" element={<UserList />}/>
             <Route path="/add-user" element={<UserForm />}/>
+            <Route path="/formik-list" element={<FormikList />}/>
+            <Route path="/formik-form" element={<FormikForm />}/>
             <Route path="/edit-user/:userId" element={<UserForm />} />
           </Routes>
         </Box>

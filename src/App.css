@@ -34,3 +34,12 @@ html, body, #root{
 .userform {
   height: 100%;
 }
+.mantine-NavLink-root {
+  justify-content: end;
+}
+.mantine-NavLink-body{
+  flex: inherit !important;
+}
+.mantine-NavLink-label{
+  font-size: 16px !important;
+}

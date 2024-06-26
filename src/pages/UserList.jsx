@@ -37,7 +37,7 @@ const UserList = () => {
   return (
     <Box px="20" pt="20" className='userlist'>
       <Flex justify="space-between" align="center">
-        <Title order={2} c="#2f3541">Dashboard</Title>
+        <Title order={2} c="#2f3541">User List</Title>
         <Link to="add-user">
           <Button variant="filled" bg="#7368c9">Add user</Button>
         </Link>
